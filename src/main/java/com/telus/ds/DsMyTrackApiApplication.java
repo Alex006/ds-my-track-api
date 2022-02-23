@@ -1,4 +1,4 @@
-package com.telus.ds.test;
+package com.telus.ds;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

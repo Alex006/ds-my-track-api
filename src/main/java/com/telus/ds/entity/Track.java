@@ -4,12 +4,19 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,17 +24,12 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @ToString
 @Table(name = "TRACKS")
 public class Track {
 	
 	public Track() {}
-	
-	public Track(String isrc, Integer duration) {
-		super();
-		this.isrc = isrc;
-		this.duration = duration;
-	}
 	
 	@Id
 	@Column(name = "TRACK_ID", updatable = false)
@@ -43,9 +45,19 @@ public class Track {
 	@NotNull(message = "Duration is required")
 	private Integer duration;
 	
-	@Column(name = "CREATION_DATE", updatable = true)
-	@NotNull(message = "Creation is required")
-	private LocalDateTime creation; //LocalDate, LocalDateTime, LocalTime;
+	@Column(name = "CREATION_DATE", updatable = false)
+	@NotNull(message = "Creation date is required")
+	private LocalDateTime creationDate; //LocalDate, LocalDateTime, LocalTime;
 	
+	@Column(name = "MODIFICATION_DATE", updatable = true)
+	@NotNull(message = "Modification date is required")
+	private LocalDateTime modificationDate;
 	
+	//--Relationships---
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ALBUM_ID", nullable = false)
+	@NotNull(message = "ALBUM is required")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
+	private Album albumObj;
 }

@@ -15,7 +15,5 @@ public class TrackDTO {
 	private Integer duration;
 	private LocalDateTime creationDate;
 	private LocalDateTime modificationDate;
-	private AlbumDTO albumObj;
-	private String albumName;
 	
 }

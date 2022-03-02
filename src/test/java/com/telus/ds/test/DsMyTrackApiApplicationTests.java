@@ -1,14 +1,15 @@
 package com.telus.ds.test;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.mock;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.hamcrest.MatcherAssert;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -108,5 +109,33 @@ class DsMyTrackApiApplicationTests {
 		MatcherAssert.assertThat(resultTrack.getIsrc(), equalTo("USVT10300001"));
 
 	}
+	
+	@Test
+	void getCustomizedTracksRepository() {
+		// with
+		// insert data from data.sql
+		int top = 3;
+		
+		//when
+		List<Track> top5tracks = (List<Track>) trackRepository.getCustomizedTracks(top);//getting instance from data.sql
+		
+		// then
+		MatcherAssert.assertThat(top5tracks.size(), equalTo(top));
 
+	}
+	
+	@Test
+	void getNegativeCustomizedTracksRepository() {
+		// with
+		// insert data from data.sql
+		int top = 100;
+		
+		//when
+		List<Track> top5tracks = (List<Track>) trackRepository.getCustomizedTracks(top);//getting instance from data.sql
+		
+		// then
+		MatcherAssert.assertThat(top5tracks.size(), not(equalTo(top)));//inserted data via data.sql is less than this value
+
+	}
+	
 }

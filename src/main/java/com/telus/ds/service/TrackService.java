@@ -1,6 +1,7 @@
 package com.telus.ds.service;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.telus.ds.entity.Track;
+import com.telus.ds.entity.dto.TrackDTO;
 import com.telus.ds.exception.BadInputParamException;
 import com.telus.ds.exception.ResourceNotFoundException;
 import com.telus.ds.repository.TrackRepository;
@@ -18,8 +20,13 @@ public class TrackService {
 	@Autowired
 	private TrackRepository trackRepository;
 
-	public List<Track> getTracks() {
-		return trackRepository.findAll();
+	public List<Track> getTracks(Integer top) {
+		if(top != null && top > 0) {
+			return trackRepository.getTopTracks(top);
+		}else {
+			return trackRepository.findAll();
+		}
+		
 	}
 	
 	public Track getTrack(String isrc) {

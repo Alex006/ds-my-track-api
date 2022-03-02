@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hibernate.annotations.Parameter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.telus.ds.entity.Track;
@@ -34,18 +36,10 @@ public class TrackController {
 	private ModelMapper modelMapper;
 	
 	@GetMapping("/")
-	public List<TrackDTO> getTracks() {
+	public List<TrackDTO> getTracks(@RequestParam(name = "top", required = false) Integer top) {
 		log.info("Getting tracks");
 		
-		/*
-		List<TrackDTO> mylist = new ArrayList<>();
-		for(Track item : trackService.getTracks()) {
-			TrackDTO newItem = convertToDTO(item);
-			mylist.add(newItem);
-			
-		}
-		return mylist;*/
-		return trackService.getTracks()
+		return trackService.getTracks(top)
 							.stream()
 							.map(track -> convertToDTO(track))
 							.collect(Collectors.toList());

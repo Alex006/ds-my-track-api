@@ -117,7 +117,7 @@ class DsMyTrackApiApplicationTests {
 		int top = 3;
 		
 		//when
-		List<Track> top5tracks = (List<Track>) trackRepository.getCustomizedTracks(top);//getting instance from data.sql
+		List<Track> top5tracks = (List<Track>) trackRepository.getTopTracks(top);//getting instance from data.sql
 		
 		// then
 		MatcherAssert.assertThat(top5tracks.size(), equalTo(top));
@@ -125,13 +125,13 @@ class DsMyTrackApiApplicationTests {
 	}
 	
 	@Test
-	void getNegativeCustomizedTracksRepository() {
+	void getNegativeTestForTracksRepository() {
 		// with
 		// insert data from data.sql
 		int top = 100;
 		
 		//when
-		List<Track> top5tracks = (List<Track>) trackRepository.getCustomizedTracks(top);//getting instance from data.sql
+		List<Track> top5tracks = (List<Track>) trackRepository.getTopTracks(top);//getting instance from data.sql
 		
 		// then
 		MatcherAssert.assertThat(top5tracks.size(), not(equalTo(top)));//inserted data via data.sql is less than this value
